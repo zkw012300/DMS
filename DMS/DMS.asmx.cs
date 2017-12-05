@@ -18,24 +18,6 @@ namespace DMS
     {
         SQLDataBaseUtils sql = new SQLDataBaseUtils();
 
-        /*[WebMethod]
-        public bool inserttoStudent()
-        {
-            return sql.inserttoStudent();
-        }*/
-
-        /*[WebMethod]
-        public bool inserttoAdmin()
-        {
-            return sql.inserttoAdmin();
-        }*/
-
-        /*[WebMethod]
-        public bool inserttoDormitory()
-        {
-            return sql.inserttoDormitory();
-        }*/
-
         [WebMethod(Description = "注册账号")]
         public bool registerAccount(string Sno, string account, string pwd)
         {
@@ -109,5 +91,43 @@ namespace DMS
             return sql.getAvatar(Sno);
         }
 
+        /*
+        SqlInfoInitializor initializor = new SqlInfoInitializor();
+        
+        [WebMethod(Description = "插入学生表初始信息")]
+        public bool insertintoStudent() 
+        {
+            return sql.inserttoStudent();
+        }
+
+        [WebMethod(Description = "插入职工表初始信息")]
+        public bool insertintoAdmin()
+        {
+            return sql.inserttoAdmin();
+        }
+
+        [WebMethod(Description = "插入财产表初始信息")]
+        public bool inserttoAssets() 
+        {
+            return sql.inserttoAssets();
+        }
+
+        [WebMethod(Description = "插入宿舍表和宿舍所有财产表初始信息")]
+        public bool inserttoDormitoryAndDA()
+        {
+            return sql.inserttoDormitoryAndDA();
+        }
+
+        [WebMethod(Description = "插入宿舍管理表初始信息")]
+        public bool insertintoManagement()
+        {
+            return sql.insertintoManagement();
+        }
+
+        [WebMethod(Description = "插入学生住宿信息表初始信息")]
+        public bool insertintoSD()
+        {
+            return initializor.insertintoSD();
+        }*/
     }
 }

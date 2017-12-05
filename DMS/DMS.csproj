@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLDataBaseUtils.cs" />
+    <Compile Include="SqlInfoInitializor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\配置.pubxml" />
