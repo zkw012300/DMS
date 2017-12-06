@@ -50,9 +50,9 @@ namespace DMS
         }
 
         [WebMethod(Description = "新的离校登记")]
-        public bool newStudentLeavingSchool(string Sno, string leaveDate, string backDate, string reason)
+        public bool newStudentLeavingSchool(string Sno,string SLSNo, string leaveDate, string backDate, string reason)
         {
-            return sql.insertintoSLS(Sno, leaveDate, backDate, reason);
+            return sql.insertintoSLS(Sno, SLSNo, leaveDate, backDate, reason);
         }
 
         [WebMethod(Description = "新的报修")]

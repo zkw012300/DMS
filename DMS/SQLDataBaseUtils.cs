@@ -23,7 +23,10 @@ namespace DMS
 {
     public class SQLDataBaseUtils
     {
+
         public static SqlConnection sqlCon;  //用于连接数据库 
+
+        private static String rootDir = "C:\\dms_v6\\image";
 
         //连接字符串  
         private String ConServerStr = @"Data Source=39.108.113.13;Initial Catalog=DMS;Persist Security Info=True;User ID=sa;Password=Zkw012300";
@@ -60,7 +63,7 @@ namespace DMS
             List<string> list = new List<string>();
             try
             {
-                string sql = "select * from view_student where Sno = " + Sno;
+                string sql = "Exec p_getStudentBasicInfo '" + Sno + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -94,7 +97,7 @@ namespace DMS
 
         public bool inserttoRepair(string Sno, string repairNo, string repairArea, string repairPlace, string repairType, string detail, string contact, string photo,string reportDate)
         {
-            string path = "C:\\dms_v5\\image\\repairPhoto";
+            string path = rootDir + "\\repairPhoto";
             string dir = path + "\\" + repairNo;
             try
             {
@@ -132,7 +135,7 @@ namespace DMS
             List<string> list = new List<string>();
             try
             {
-                string sql = "Select PhotoDir,RepairDetail,ReportDate From view_getRepairBasicInfo Where Sno = '" + Sno + "'";
+                string sql = "Exec p_getRepairBasicInfo '" + Sno + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -206,10 +209,10 @@ namespace DMS
             try
             {
                 string oldPhotoDir = getAvatarDir(Sno);
-                string dir = "C:\\dms_v5\\image\\avatar" + "\\" + Sno;
+                string dir = rootDir + "\\avatar" + "\\" + Sno;
                 string sql = "Exec p_updateAvatar '" + Sno + "','" + dir + "'";
                 //删除旧头像
-                deleteOldAvatar(oldPhotoDir);
+                deleteOldPic(oldPhotoDir);
                 //保存新头像
                 savePic(dir, photo);
                 //更新数据库
@@ -248,7 +251,7 @@ namespace DMS
 
         private void savePic(string dir,string base64_str) 
         {
-            isDirExists("C:\\dms_v5\\image\\avatar",dir);
+            isDirExists(rootDir + "\\avatar", dir);
             FileStream f = new FileStream(dir, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
             StreamWriter sw = new StreamWriter(f);
             sw.WriteLine(base64_str);
@@ -257,7 +260,7 @@ namespace DMS
             f.Close();
         }
 
-        private void deleteOldAvatar(string dir)
+        private void deleteOldPic(string dir)
         {
             if (dir == null || dir.Length == 0)
                 return;
@@ -325,7 +328,7 @@ namespace DMS
             try
             {
                 List<string> list = new List<string>();
-                string sql = "Select * From view_getSLSBasicInfo Where Sno = '" + Sno + "'";
+                string sql = "Exec p_getSLSBasicInfo '" + Sno + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -352,7 +355,7 @@ namespace DMS
             try
             {
                 List<string> list = new List<string>();
-                string sql = "Select * From view_getRLBasicInfoBySno Where Sno = " + Sno;
+                string sql = "Exec p_getRLBasicInfoBySno '" + Sno + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -441,11 +444,11 @@ namespace DMS
         // leaveDate 离校时间
         // backDate 返校时间
         // reason 原因
-        public bool insertintoSLS(string Sno, string leaveDate, string backDate, string reason)
+        public bool insertintoSLS(string Sno,string SLSNo, string leaveDate, string backDate, string reason)
         {
             try
             {
-                string sql = "Exec p_insert_into_StudentLeavingSchool '" + Sno + "','" + leaveDate + "','" + backDate + "','" + reason + "'";
+                string sql = "Exec p_insert_into_StudentLeavingSchool '" + Sno + "','" + SLSNo + "','" + leaveDate + "','" + backDate + "','" + reason + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
