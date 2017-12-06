@@ -160,6 +160,35 @@ namespace DMS
             }
         }
 
+        public string[] getRepairDetailsInfoBySno(string Sno)
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                string sql = "Exec p_getRepairDetailsInfo '" + Sno + "'";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                    list.Add(reader[2].ToString());
+                    list.Add(reader[3].ToString());
+                    list.Add(reader[4].ToString());
+                    list.Add(reader[5].ToString());
+                    list.Add(reader[6].ToString());
+                    list.Add(reader[7].ToString());
+                }
+                reader.Close();
+                cmd.Dispose();
+                return list.ToArray();
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+        }
+
         public string getRepairPhoto(string dir)
         {
             try
@@ -348,6 +377,32 @@ namespace DMS
             }
         }
 
+        public string[] getSLSDetailsInfo(string Sno)
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                string sql = "Exec p_getSLSDetailsInfo '" + Sno + "'";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                    list.Add(reader[2].ToString());
+                    list.Add(reader[3].ToString());
+                    list.Add(reader[4].ToString());
+                }
+                reader.Close();
+                cmd.Dispose();
+                return list.ToArray();
+            }
+            catch (SqlException)
+            {
+                return null; 
+            }
+        }
+
         //给定学号，获取夜归记录的基本信息
         //Sno 学号
         public List<string> getRLBasicInfo(string Sno)
@@ -371,6 +426,31 @@ namespace DMS
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public string[] getRLDetailsInfo(string Sno)
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                string sql = "Exec p_getRLDetailsInfoBySno '" + Sno + "'";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                    list.Add(reader[2].ToString());
+                    list.Add(reader[3].ToString());
+                }
+                reader.Close();
+                cmd.Dispose();
+                return list.ToArray();
+            }
+            catch (SqlException)
+            {
+                return null; 
             }
         }
 

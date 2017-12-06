@@ -30,20 +30,20 @@ namespace DMS
             return sql.getBasicInfo(Sno).ToArray();
         }
 
-        [WebMethod(Description = "通过学号获取报修基本信息")]
+        [WebMethod(Description = "通过学号获取报修摘要信息")]
         public string[] getRepairBasicInfoBySno(string Sno)
         {
             return sql.getRepairBasicInfoBySno(Sno);
         }
 
-        [WebMethod(Description = "通过学号获取离校登记基本信息")]
+        [WebMethod(Description = "通过学号获取离校登记摘要信息")]
         public string[] getSLSBasicInfo(string Sno)
         {
             return sql.getSLSBasicInfo(Sno).ToArray();
         }
 
         //has not implements
-        [WebMethod(Description = "通过学号获取夜归基本信息")]
+        [WebMethod(Description = "通过学号获取夜归摘要信息")]
         public string[] getReturnLatelyBasicInfo(string Sno)
         {
             return sql.getRLBasicInfo(Sno).ToArray();
@@ -89,6 +89,24 @@ namespace DMS
         public string getAvatar(string Sno)
         {
             return sql.getAvatar(Sno);
+        }
+
+        [WebMethod(Description = "获取报修详细信息")]
+        public string[] getRepairDetailsInfoBySno(string Sno)
+        {
+            return sql.getRepairDetailsInfoBySno(Sno);
+        }
+
+        [WebMethod(Description = "获取离校登记详细信息")]
+        public string[] getSLSDetailsInfo(string Sno)
+        {
+            return sql.getSLSDetailsInfo(Sno);
+        }
+
+        [WebMethod(Description = "获取夜归记录详细信息")]
+        public string[] getRLDetailsInfo(string Sno)
+        {
+            return sql.getRLDetailsInfo(Sno);
         }
 
         /*

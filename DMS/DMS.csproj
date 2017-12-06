@@ -61,7 +61,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PhotoUtils.cs" />
     <Compile Include="DMS.asmx.cs">
       <DependentUpon>DMS.asmx</DependentUpon>
       <SubType>Component</SubType>
