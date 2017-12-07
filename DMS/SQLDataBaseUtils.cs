@@ -29,7 +29,7 @@ namespace DMS
         private static String rootDir = "C:\\dms_v6\\image";
 
         //连接字符串  
-        private String ConServerStr = @"Data Source=39.108.113.13;Initial Catalog=DMS;Persist Security Info=True;User ID=sa;Password=Zkw012300";
+        private String ConServerStr = @"Data Source=;Initial Catalog=DMS;Persist Security Info=True;User ID=sa;Password=Zkw012300";
 
         //默认构造函数  
         public SQLDataBaseUtils()
@@ -160,12 +160,12 @@ namespace DMS
             }
         }
 
-        public string[] getRepairDetailsInfoBySno(string Sno)
+        public string[] getRepairDetailsInfoBySno(string Rno)
         {
             List<string> list = new List<string>();
             try
             {
-                string sql = "Exec p_getRepairDetailsInfo '" + Sno + "'";
+                string sql = "Exec p_getRepairDetailsInfo '" + Rno + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -177,7 +177,6 @@ namespace DMS
                     list.Add(reader[4].ToString());
                     list.Add(reader[5].ToString());
                     list.Add(reader[6].ToString());
-                    list.Add(reader[7].ToString());
                 }
                 reader.Close();
                 cmd.Dispose();
@@ -377,12 +376,12 @@ namespace DMS
             }
         }
 
-        public string[] getSLSDetailsInfo(string Sno)
+        public string[] getSLSDetailsInfo(string Rno)
         {
             List<string> list = new List<string>();
             try
             {
-                string sql = "Exec p_getSLSDetailsInfo '" + Sno + "'";
+                string sql = "Exec p_getSLSDetailsInfo '" + Rno + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -429,12 +428,12 @@ namespace DMS
             }
         }
 
-        public string[] getRLDetailsInfo(string Sno)
+        public string[] getRLDetailsInfo(string Rno)
         {
             List<string> list = new List<string>();
             try
             {
-                string sql = "Exec p_getRLDetailsInfoBySno '" + Sno + "'";
+                string sql = "Exec p_getRLDetailsInfoBySno '" + Rno + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
