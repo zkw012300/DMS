@@ -316,7 +316,7 @@ namespace DMS
                 r = reason;
             else
                 r = "'" + reason + "'";
-            string sql = "Update ReturnLately Set " + d + "reason = reason Where Rno = '" + Rno + "'";
+            string sql = "Update ReturnLately Set " + d + "reason = "+r+" Where Rno = '" + Rno + "'";
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
@@ -672,7 +672,7 @@ namespace DMS
                 r = reason;
             else
                 r = "'" + reason + "'";
-            string sql = "Update StudentLeavingSchool Set " + l + b + "reason = reason Where SLSNo = '" + SLSNo + "'";
+            string sql = "Update StudentLeavingSchool Set " + l + b + "reason = "+r+" Where SLSNo = '" + SLSNo + "'";
             try
             {
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
