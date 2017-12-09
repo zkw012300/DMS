@@ -24,7 +24,7 @@ namespace DMS
             return sql.Reg(Sno, account, pwd);
         }
 
-        [WebMethod(Description = "通过学号获取学生基本信息")]
+        [WebMethod(Description = "通过学号获取学生摘要信息")]
         public string[] getBasicInfoBySno(string Sno) 
         {
             return sql.getBasicInfo(Sno).ToArray();
@@ -92,21 +92,63 @@ namespace DMS
         }
 
         [WebMethod(Description = "获取报修详细信息")]
-        public string[] getRepairDetailsInfoBySno(string Sno)
+        public string[] getRepairDetailsInfoBySno(string Rno)
         {
-            return sql.getRepairDetailsInfoBySno(Sno);
+            return sql.getRepairDetailsInfoBySno(Rno);
+        }
+
+        [WebMethod(Description="获取报修照片")]
+        public string[] getRepairBasicInfoBmpBySno(string Sno)
+        {
+            return sql.getRepairBasicInfoBmpBySno(Sno);
         }
 
         [WebMethod(Description = "获取离校登记详细信息")]
-        public string[] getSLSDetailsInfo(string Sno)
+        public string[] getSLSDetailsInfo(string Rno)
         {
-            return sql.getSLSDetailsInfo(Sno);
+            return sql.getSLSDetailsInfo(Rno);
         }
 
         [WebMethod(Description = "获取夜归记录详细信息")]
-        public string[] getRLDetailsInfo(string Sno)
+        public string[] getRLDetailsInfo(string Rno)
         {
-            return sql.getRLDetailsInfo(Sno);
+            return sql.getRLDetailsInfo(Rno);
+        }
+
+        [WebMethod(Description = "更新报修记录")]
+        public bool updateRepair(string repairNo, string repairPlace, string repairType, string detail, string contact)
+        {
+            return sql.updateRepair(repairNo,repairPlace, repairType, detail, contact);
+        }
+
+        [WebMethod(Description="删除报修记录")]
+        public bool deleteRepair(string repairNo) 
+        {
+            return sql.deleteRepair(repairNo);
+        }
+
+        [WebMethod(Description = "更新夜归记录")]
+        public bool updateReturnLately(string Rno, string datetime, string reason)
+        {
+            return sql.updateReturnLately(Rno, datetime, reason);
+        }
+
+        [WebMethod(Description = "删除夜归记录")]
+        public bool deleteReturnLately(string Rno)
+        {
+            return sql.deleteReturnLately(Rno);
+        }
+
+        [WebMethod(Description = "更新离校登记记录")]
+        public bool updateSLS(string SLSNo, string leaveDate, string backDate, string reason)
+        {
+            return sql.updateSLS(SLSNo, leaveDate, backDate, reason);
+        }
+
+        [WebMethod(Description = "删除离校登记记录")]
+        public bool deleteSLS(string SLSNo)
+        {
+            return sql.deleteSLS(SLSNo);
         }
 
         /*

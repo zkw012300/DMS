@@ -29,7 +29,7 @@ namespace DMS
         private static String rootDir = "C:\\dms_v6\\image";
 
         //连接字符串  
-        private String ConServerStr = @"Data Source=;Initial Catalog=DMS;Persist Security Info=True;User ID=sa;Password=Zkw012300";
+        private String ConServerStr = @"Data Source=39.108.113.13;Initial Catalog=DMS;Persist Security Info=True;User ID=sa;Password=Zkw012300";
 
         //默认构造函数  
         public SQLDataBaseUtils()
@@ -129,6 +129,58 @@ namespace DMS
             }
         }
 
+        public bool updateRepair(string repairNo,string repairPlace, string repairType, string detail, string contact) 
+        {
+            string p = "";
+            string t = "";
+            string d = "";
+            string c = "";
+            if (repairPlace.Equals("RepairPlace"))
+                p = repairPlace;
+            else
+                p = "'" + repairPlace + "'";
+            if (repairType.Equals("RepairType"))
+                t = repairType;
+            else
+                t = "'" + repairType + "'";
+            if (detail.Equals("RepairDetail"))
+                d = detail;
+            else
+                d = "'" + detail + "'";
+            if (contact.Equals("Contact"))
+                c = contact;
+            else
+                c = "'" + contact + "'";
+            string sql = "Update Repair Set RepairPlace = " + p + ",RepairType = " + t + ",RepairDetail = " + d + ",Contact = " + c + " Where repairNo = '" + repairNo + "'";
+            try
+            {
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+        }
+
+        public bool deleteRepair(string repairNo) 
+        {
+            try 
+            {
+                string sql = "Delete From Repair Where repairNo = '" + repairNo + "'";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return true;
+            }
+            catch(SqlException)
+            {
+                return false; 
+            }
+        }
+
         //获取报修基本信息
         public string[] getRepairBasicInfoBySno(string Sno)
         {
@@ -140,6 +192,29 @@ namespace DMS
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                }
+                reader.Close();
+                cmd.Dispose();
+                return list.ToArray();
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+        }
+
+        public string[] getRepairBasicInfoBmpBySno(string Sno)
+        {
+            List<string> list = new List<string>();
+            try
+            {
+                string sql = "Exec p_getRepairBasicInfoBmp '" + Sno + "'";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
                     if (File.Exists(reader[0].ToString()))
                     {
                         string dir = getRepairPhoto(reader[0].ToString());
@@ -147,8 +222,6 @@ namespace DMS
                     }
                     else
                         list.Add("");
-                    list.Add(reader[1].ToString());
-                    list.Add(reader[2].ToString());
                 }
                 reader.Close();
                 cmd.Dispose();
@@ -200,6 +273,8 @@ namespace DMS
                     photo = photo + line;
                 }
                 sr.Close();
+                if (photo.Equals("null"))
+                    return "123";
                 return photo;
             }
             catch (IOException)
@@ -224,6 +299,48 @@ namespace DMS
                 return true; 
             }
             catch (Exception)
+            {
+                return false; 
+            }
+        }
+
+        public bool updateReturnLately(string Rno, string datetime, string reason)
+        {
+            string d = "";
+            string r = "";
+            if (datetime.Equals("returnTime"))
+                d = "";
+            else
+                d = "returnTime = " + "'" + datetime + "',";
+            if (reason.Equals("reason"))
+                r = reason;
+            else
+                r = "'" + reason + "'";
+            string sql = "Update ReturnLately Set " + d + "reason = reason Where Rno = '" + Rno + "'";
+            try
+            {
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return true; 
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+        }
+
+        public bool deleteReturnLately(string Rno)
+        {
+            try
+            {
+                string sql = "Delete From ReturnLately Where Rno = '" + Rno + "'";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return true; 
+            }
+            catch (SqlException)
             {
                 return false; 
             }
@@ -277,7 +394,7 @@ namespace DMS
             }
         }
 
-        private void savePic(string dir,string base64_str) 
+        public void savePic(string dir,string base64_str) 
         {
             isDirExists(rootDir + "\\avatar", dir);
             FileStream f = new FileStream(dir, FileMode.Open, FileAccess.Write, FileShare.ReadWrite);
@@ -441,7 +558,6 @@ namespace DMS
                     list.Add(reader[0].ToString());
                     list.Add(reader[1].ToString());
                     list.Add(reader[2].ToString());
-                    list.Add(reader[3].ToString());
                 }
                 reader.Close();
                 cmd.Dispose();
@@ -534,6 +650,53 @@ namespace DMS
                 return true;
             }
             catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public bool updateSLS(string SLSNo, string leaveDate, string backDate, string reason)
+        {
+            string l = "";
+            string b = "";
+            string r = "";
+            if (leaveDate.Equals("LeaveDate"))
+                l = "";
+            else
+                l = "LeaveDate = "+"'" + leaveDate + "',";
+            if (backDate.Equals("BackDate"))
+                b = "";
+            else
+                b = "BackDate = "+"'" + backDate + "',";
+            if (reason.Equals("reason"))
+                r = reason;
+            else
+                r = "'" + reason + "'";
+            string sql = "Update StudentLeavingSchool Set " + l + b + "reason = reason Where SLSNo = '" + SLSNo + "'";
+            try
+            {
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return true;
+            }
+            catch (SqlException)
+            {
+                return false;
+            }
+        }
+
+        public bool deleteSLS(string SLSNo)
+        {
+            try
+            {
+                string sql = "Delete From StudentLeavingScholl Where SLSNo = '" + SLSNo + "'";
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                cmd.ExecuteNonQuery();
+                cmd.Dispose();
+                return true;
+            }
+            catch (SqlException)
             {
                 return false;
             }
