@@ -167,9 +167,19 @@ namespace DMS
 
         public bool deleteRepair(string repairNo) 
         {
+            string getDir = "Select PhotoDir From Repair Where repairNo = '" + repairNo + "'";
+            string sql = "Delete From Repair Where repairNo = '" + repairNo + "'";
             try 
             {
-                string sql = "Delete From Repair Where repairNo = '" + repairNo + "'";
+                SqlCommand cmd0 = new SqlCommand(getDir, sqlCon);
+                SqlDataReader reader = cmd0.ExecuteReader();
+                while (reader.Read())
+                {
+                    string dir = reader[0].ToString();
+                    deleteOldPic(dir);
+                }
+                reader.Close();
+                cmd0.Dispose();
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
@@ -243,13 +253,20 @@ namespace DMS
                 SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    list.Add(reader[0].ToString());
+                    if (File.Exists(reader[0].ToString()))
+                    {
+                        string dir = getRepairPhoto(reader[0].ToString());
+                        list.Add(dir);
+                    }
+                    else
+                        list.Add("");
                     list.Add(reader[1].ToString());
                     list.Add(reader[2].ToString());
                     list.Add(reader[3].ToString());
                     list.Add(reader[4].ToString());
                     list.Add(reader[5].ToString());
                     list.Add(reader[6].ToString());
+                    list.Add(reader[7].ToString());
                 }
                 reader.Close();
                 cmd.Dispose();
@@ -288,19 +305,19 @@ namespace DMS
         //夜归记录编号
         //夜归时间
         //原因
-        public bool insertintoReturnLately(string Sno, string Rno, string datetime, string reason)
+        public string insertintoReturnLately(string Sno, string Rno, string datetime, string reason)
         {
+            string sql = "Exec p_insert_into_ReturnLately '" + Rno + "','" + Sno + "','" + datetime + "','" + reason + "'";
             try
             {
-                string sql = "Exec p_insert_into_ReturnLately '" + Rno + "','" + Sno + "','" + datetime + "','" + reason + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
-                return true; 
+                return sql; 
             }
             catch (Exception)
             {
-                return false; 
+                return sql; 
             }
         }
 
@@ -641,9 +658,9 @@ namespace DMS
         // reason 原因
         public bool insertintoSLS(string Sno,string SLSNo, string leaveDate, string backDate, string reason)
         {
+            string sql = "Exec p_insert_into_StudentLeavingSchool '" + Sno + "','" + SLSNo + "','" + leaveDate + "','" + backDate + "','" + reason + "'";
             try
             {
-                string sql = "Exec p_insert_into_StudentLeavingSchool '" + Sno + "','" + SLSNo + "','" + leaveDate + "','" + backDate + "','" + reason + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
@@ -690,7 +707,7 @@ namespace DMS
         {
             try
             {
-                string sql = "Delete From StudentLeavingScholl Where SLSNo = '" + SLSNo + "'";
+                string sql = "Delete From StudentLeavingSchool Where SLSNo = '" + SLSNo + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();

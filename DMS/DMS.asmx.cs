@@ -62,7 +62,7 @@ namespace DMS
         }
 
         [WebMethod(Description = "新的夜归申请")]
-        public bool newReturnLately(string Sno, string Rno, string returnTime, string reason)
+        public string newReturnLately(string Sno, string Rno, string returnTime, string reason)
         {
             return sql.insertintoReturnLately(Sno, Rno, returnTime, reason);
         }
@@ -122,9 +122,9 @@ namespace DMS
         }
 
         [WebMethod(Description="删除报修记录")]
-        public bool deleteRepair(string repairNo) 
+        public bool deleteRepair(string deleteNo) 
         {
-            return sql.deleteRepair(repairNo);
+            return sql.deleteRepair(deleteNo);
         }
 
         [WebMethod(Description = "更新夜归记录")]
@@ -134,9 +134,9 @@ namespace DMS
         }
 
         [WebMethod(Description = "删除夜归记录")]
-        public bool deleteReturnLately(string Rno)
+        public bool deleteReturnLately(string deleteNo)
         {
-            return sql.deleteReturnLately(Rno);
+            return sql.deleteReturnLately(deleteNo);
         }
 
         [WebMethod(Description = "更新离校登记记录")]
@@ -146,9 +146,9 @@ namespace DMS
         }
 
         [WebMethod(Description = "删除离校登记记录")]
-        public bool deleteSLS(string SLSNo)
+        public bool deleteSLS(string deleteNo)
         {
-            return sql.deleteSLS(SLSNo);
+            return sql.deleteSLS(deleteNo);
         }
 
         /*
