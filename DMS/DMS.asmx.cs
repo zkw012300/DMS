@@ -128,9 +128,9 @@ namespace DMS
         }
 
         [WebMethod(Description = "更新夜归记录")]
-        public bool updateReturnLately(string Rno, string datetime, string reason)
+        public bool updateReturnLately(string Rno, string returnTime, string reason)
         {
-            return sql.updateReturnLately(Rno, datetime, reason);
+            return sql.updateReturnLately(Rno, returnTime, reason);
         }
 
         [WebMethod(Description = "删除夜归记录")]
