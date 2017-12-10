@@ -24,7 +24,7 @@ namespace DMS
     {
         public static SqlConnection sqlCon;  //用于连接数据库 
         private static int STUDENT_COUNTER = 500;
-        private static int ADMIN_COUNTER = 40;
+        private static int ADMIN_COUNTER = 10;
         private static int RACE = 56;
         private static int ASSETS_COUNTER = 5;
         private static string[] name = new string[STUDENT_COUNTER];
@@ -359,34 +359,27 @@ namespace DMS
         {
             try
             {
-                string str0;
-                string str1;
-                string str2;
-                string str3;
                 string sql;
+                string buildNo;
+                string floorNo;
+                string roomNo;
                 for (int i = 0; i < 10; i++)
                 {
-                    for (int j = 0; j < 4; j++)
+                    buildNo = "0" + (i + 1);
+                    if (i + 1 == 10) 
+                        buildNo = "10";
+                    for (int j = 0; j < 5; j++)
                     {
-                        str0 = i + 1 + "";
-                        str1 = (4 * i + j) + "";
-                        if (i + 1 < 10)
-                            str0 = "0" + str0;
-                        if (4 * i + j < 10)
-                            str1 = "0" + str1;
-                        for (int m = 0; m < 5; m++)
+                        floorNo = "0" + (j + 1);
+                        for (int k = 0; k < 10; k++)
                         {
-                            for (int n = 0; n < 10; n++)
-                            {
-                                str2 = "0" + (m + 1);
-                                str3 = (n + 1) + "";
-                                if (n + 1 < 10)
-                                    str3 = "0" + str3;
-                                sql = "Exec p_insert_into_management '528112341" + str1 + "','" + str0 + str2 + str3 + "'";
-                                SqlCommand cmd = new SqlCommand(sql, sqlCon);
-                                cmd.ExecuteNonQuery();
-                                cmd.Dispose();
-                            }
+                            roomNo = "0" + (k + 1);
+                            if (k + 1 == 10)
+                                roomNo = "10";
+                            sql = "Exec p_insert_into_management '5281123410"+i+"','"+buildNo+floorNo+roomNo+"'";
+                            SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                            cmd.ExecuteNonQuery();
+                            cmd.Dispose();
                         }
                     }
                 }

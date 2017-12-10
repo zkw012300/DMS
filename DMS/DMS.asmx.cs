@@ -151,9 +151,27 @@ namespace DMS
             return sql.deleteSLS(deleteNo);
         }
 
-        /*
-        SqlInfoInitializor initializor = new SqlInfoInitializor();
-        
+        [WebMethod(Description = "宿舍管理员获取报修摘要信息")]
+        public string[] getRepBasicInfoByManager(string Eno)
+        {
+            return sql.getRepBasicInfoByManager(Eno);
+        }
+
+        [WebMethod(Description = "宿舍管理员获取离校登记摘要信息")]
+        public string[] getSLSBasicInfoByManager(string Eno)
+        {
+            return sql.getSLSBasicInfoByManager(Eno);
+        }
+
+        [WebMethod(Description = "宿舍管理员获取夜归记录摘要信息")]
+        public string[] getRLBasicInfoByManager(string Eno) 
+        {
+            return sql.getRLBasicInfoByManager(Eno);
+        }
+
+
+        /*SqlInfoInitializor initializor = new SqlInfoInitializor();
+                
         [WebMethod(Description = "插入学生表初始信息")]
         public bool insertintoStudent() 
         {

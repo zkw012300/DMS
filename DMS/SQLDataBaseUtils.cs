@@ -278,7 +278,7 @@ namespace DMS
             }
         }
 
-        public string getRepairPhoto(string dir)
+        public string getRepairPhoto(string dir) //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         {
             try
             {
@@ -549,7 +549,7 @@ namespace DMS
 
                 while (reader.Read())
                 {
-                    list.Add(reader[0].ToString());//Sno
+                    list.Add(reader[0].ToString());//Rno
                     list.Add(reader[1].ToString());//ReturnTime
                 }
                 reader.Close();
@@ -716,6 +716,95 @@ namespace DMS
             catch (SqlException)
             {
                 return false;
+            }
+        }
+
+        public string[] getRepBasicInfoByManager(string Eno)
+        {
+            string sql;
+            if (Eno.Equals("Eno"))
+                sql = "Select PhotoDir,RepairNo,reportDate From Repair Where Sno In (Select Sno From StudentDormitory Where Dno In (Select Dno From Management Where Eno = Eno))";
+            else
+                sql = "Select PhotoDir,RepairNo,reportDate From Repair Where Sno In (Select Sno From StudentDormitory Where Dno In (Select Dno From Management Where Eno = '" + Eno + "'))";
+            List<string> list = new List<string>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    if (File.Exists(reader[0].ToString()))
+                    {
+                        string dir = getRepairPhoto(reader[0].ToString());
+                        list.Add(dir);
+                    }
+                    else
+                        list.Add("");
+                    list.Add(reader[1].ToString());
+                    list.Add(reader[2].ToString());
+                }
+                reader.Close();
+                cmd.Dispose();
+                return list.ToArray();
+            }
+            catch (SqlException)
+            {
+                return null; 
+            }
+        }
+
+        public string[] getSLSBasicInfoByManager(string Eno)
+        {
+            string sql;
+            if (Eno.Equals("Eno"))
+                sql = "Select SLSNo,LeaveDate,BackDate From StudentLeavingSchool Where Sno In (Select Sno From StudentDormitory Where Dno In (Select Dno From Management Where Eno = Eno))";
+            else
+                sql = "Select SLSNo,LeaveDate,BackDate From StudentLeavingSchool Where Sno In (Select Sno From StudentDormitory Where Dno In (Select Dno From Management Where Eno = '" + Eno + "'))";
+            List<string> list = new List<string>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                    list.Add(reader[2].ToString());
+                }
+                reader.Close();
+                cmd.Dispose();
+                return list.ToArray();
+            }
+            catch (SqlException)
+            {
+                return null; 
+            }
+        }
+
+        public string[] getRLBasicInfoByManager(string Eno)
+        {
+            string sql;
+            if (Eno.Equals("Eno"))
+                sql = "Select Rno,returnTime From ReturnLately Where Sno In (Select Sno From StudentDormitory Where Dno In (Select Dno From Management Where Eno = Eno))";
+            else
+                sql = "Select Rno,returnTime From ReturnLately Where Sno In (Select Sno From StudentDormitory Where Dno In (Select Dno From Management Where Eno = '" + Eno + "'))";
+            List<string> list = new List<string>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader[0].ToString());
+                    list.Add(reader[1].ToString());
+                }
+                reader.Close();
+                cmd.Dispose();
+                return list.ToArray();
+            }
+            catch (SqlException) 
+            {
+                return null;
             }
         }
 
