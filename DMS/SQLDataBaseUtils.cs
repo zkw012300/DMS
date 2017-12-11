@@ -590,11 +590,15 @@ namespace DMS
         // Sno 学号
         // account 账号
         // pwd 密码
-        public bool Reg(string Sno, string account, string pwd)
+        public bool Reg(string Sno, string account, string pwd,int type)
         {
             try
             {
-                string sql = "Exec p_insert_into_reg '" + Sno + "','" + account + "','" + pwd + "'";
+                string sql;
+                if(type == 0)
+                    sql = "Exec p_insert_into_reg '" + Sno + "','" + account + "','" + pwd + "'";
+                else
+                    sql = "Exec p_insert_into_regForManager '" + Sno + "','" + account + "','" + pwd + "'";
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
@@ -614,22 +618,71 @@ namespace DMS
             try
             {
                 string sql = "Exec p_getAccount_bySno '" + account + "','" + pwd + "'";
+                string myResult = null;
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 SqlDataReader reader = cmd.ExecuteReader();
                 if (reader.Read())
                 {
-                    string result = reader[0].ToString();
+                    myResult = reader[0].ToString();
                     reader.Close();
                     cmd.Dispose();
-                    return result;
-                }
-                else
-                    return "-1";
+                    return myResult;
+                } 
+                /*sql = "Exec p_getAccount_byEno '" + account + "','" + pwd + "'";
+                SqlCommand cmd1 = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader1 = cmd1.ExecuteReader();
+                if (reader1.Read())
+                {
+                    myResult = reader1[0].ToString();
+                    reader1.Close();
+                    cmd1.Dispose();
+                    return myResult;
+                } */
+                reader.Close();
+                cmd.Dispose();
+                return "-1";
             }
             catch (Exception)
             {
                 return null;
             }
+        }
+
+        public string getEnobyAccount(string account, string pwd)
+        {
+            try
+            {
+                string sql = "Exec p_getAccount_byEno '" + account + "','" + pwd + "'";
+                string myResult = null;
+                SqlCommand cmd = new SqlCommand(sql, sqlCon);
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    myResult = reader[0].ToString();
+                    reader.Close();
+                    cmd.Dispose();
+                    return myResult;
+                }
+                reader.Close();
+                cmd.Dispose();
+                return "-1";
+            }
+            catch (SqlException)
+            {
+                return null;
+            }
+        }
+
+        public string getNo(string account, string pwd)
+        {
+            string result = null;
+            result = getSnobyAccount(account, pwd);
+            if (!result.Equals("-1"))
+                return result;
+            result = getEnobyAccount(account, pwd);
+            if (!result.Equals("-1"))
+                return result;
+            return result;
         }
 
         //修改密码

@@ -19,9 +19,9 @@ namespace DMS
         SQLDataBaseUtils sql = new SQLDataBaseUtils();
 
         [WebMethod(Description = "注册账号")]
-        public bool registerAccount(string Sno, string account, string pwd)
+        public bool registerAccount(string Sno, string account, string pwd,int type)
         {
-            return sql.Reg(Sno, account, pwd);
+            return sql.Reg(Sno, account, pwd, type);
         }
 
         [WebMethod(Description = "通过学号获取学生摘要信息")]
@@ -74,9 +74,9 @@ namespace DMS
         }
 
         [WebMethod(Description = "获取账号对应的学号")]
-        public string getSnobyAccount(string account,string pwd) 
+        public string getNo(string account, string pwd) 
         {
-            return sql.getSnobyAccount(account,pwd);
+            return sql.getNo(account, pwd);
         }
 
         [WebMethod(Description = "修改密码")]
