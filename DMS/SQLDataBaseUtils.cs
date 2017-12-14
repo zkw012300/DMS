@@ -575,6 +575,7 @@ namespace DMS
                     list.Add(reader[0].ToString());
                     list.Add(reader[1].ToString());
                     list.Add(reader[2].ToString());
+                    list.Add(reader[3].ToString());
                 }
                 reader.Close();
                 cmd.Dispose();
