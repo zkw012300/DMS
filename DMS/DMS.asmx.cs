@@ -62,7 +62,7 @@ namespace DMS
         }
 
         [WebMethod(Description = "新的夜归申请")]
-        public string newReturnLately(string Sno, string Rno, string returnTime, string reason)
+        public bool newReturnLately(string Sno, string Rno, string returnTime, string reason)
         {
             return sql.insertintoReturnLately(Sno, Rno, returnTime, reason);
         }

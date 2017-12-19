@@ -305,7 +305,7 @@ namespace DMS
         //夜归记录编号
         //夜归时间
         //原因
-        public string insertintoReturnLately(string Sno, string Rno, string datetime, string reason)
+        public bool insertintoReturnLately(string Sno, string Rno, string datetime, string reason)
         {
             string sql = "Exec p_insert_into_ReturnLately '" + Rno + "','" + Sno + "','" + datetime + "','" + reason + "'";
             try
@@ -313,11 +313,11 @@ namespace DMS
                 SqlCommand cmd = new SqlCommand(sql, sqlCon);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
-                return sql; 
+                return true; 
             }
             catch (Exception)
             {
-                return sql; 
+                return false; 
             }
         }
 
